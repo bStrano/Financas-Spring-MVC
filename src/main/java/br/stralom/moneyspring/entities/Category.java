@@ -7,9 +7,12 @@ package br.stralom.moneyspring.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,10 +39,18 @@ public class Category implements Serializable {
 
     private String cat_name;
     @ManyToMany(mappedBy="tra_categories")
-    private List<Transaction> cat_transactions = new ArrayList<>();
+    private Set<Transaction> cat_transactions = new HashSet<>();
     
     public Category() {
     }
+
+    public Category(Long cat_id, String cat_name) {
+        this.cat_id = cat_id;
+        this.cat_name = cat_name;
+    }
+
+ 
+    
 
     public Long getCat_id() {
         return cat_id;
@@ -58,7 +69,7 @@ public class Category implements Serializable {
     }
 
     // List READ-ONLY, for add use addTransaction.
-    public List<Transaction> getCat_transactions() {
+    public Set<Transaction> getCat_transactions() {
    //     return Collections.unmodifiableList(cat_transactions);
        return cat_transactions;
     }
@@ -67,7 +78,7 @@ public class Category implements Serializable {
         this.cat_transactions.add(transaction);
     }
 
-    public void setCat_transactions(List<Transaction> cat_transactions) {
+    public void setCat_transactions(Set<Transaction> cat_transactions) {
         this.cat_transactions = cat_transactions;
     }
 
@@ -82,9 +93,7 @@ public class Category implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.cat_id);
-        hash = 89 * hash + Objects.hashCode(this.cat_name);
-        hash = 89 * hash + Objects.hashCode(this.cat_transactions);
+        hash = 97 * hash + Objects.hashCode(this.cat_id);
         return hash;
     }
 
@@ -111,6 +120,10 @@ public class Category implements Serializable {
         }
         return true;
     }
+
+   
+
+
 
     
     

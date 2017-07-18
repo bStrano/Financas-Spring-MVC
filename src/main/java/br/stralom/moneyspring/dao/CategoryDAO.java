@@ -39,11 +39,25 @@ public class CategoryDAO {
         return catQuery.getSingleResult();
     }
     
+    
+    
     public void save(Category cat){
         em.persist(cat);
     }
     
-    public Category findeOne(Long id){
+    public Category find(Long id){
         return em.find(Category.class, id);
     }
+    
+    public Category findById(Long id){
+        String jpql = "select c from Category c where c.cat_id = :pId";
+        TypedQuery query = em.createQuery(jpql, Category.class);
+        query.setParameter("pId", id);
+        return (Category) query.getSingleResult();
+    }
+    
+    public void merge(Category category){
+        em.merge(category);
+    }
+    
 }

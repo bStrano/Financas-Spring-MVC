@@ -8,7 +8,10 @@ package br.stralom.moneyspring.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -42,16 +45,16 @@ public class Balance implements Serializable {
     @JoinTable(name="tb_balance_transactions", 
             joinColumns = {@JoinColumn(name="bal_id")},
             inverseJoinColumns = {@JoinColumn(name="tra_id")})
-    private List<Transaction> bal_transactions = new ArrayList<>();
+    private Collection<Transaction> bal_transactions = new ArrayList<>();
     @OneToMany(mappedBy = "goal_balance")
-    private List<Goal> bal_goals = new ArrayList<>();
+    private Collection<Goal> bal_goals ;
     @ManyToOne
     @JoinColumn(name="bal_user")
     private User bal_user;
     
     
     public enum BalanceStatus {
-        NEGATIVE,POSITIVE
+        NEGATIVE,POSITIVE,NEUTRAL
     }
 
     public Long getBal_id() {
@@ -94,19 +97,23 @@ public class Balance implements Serializable {
         this.bal_BalanceStatus = bal_BalanceStatus;
     }
 
-    public List<Transaction> getBal_transactions() {
+    public Collection<Transaction> getBal_transactions() {
         return bal_transactions;
     }
 
-    public void setBal_transactions(List<Transaction> bal_transactions) {
+    public void setBal_transactions(Collection<Transaction> bal_transactions) {
         this.bal_transactions = bal_transactions;
     }
 
-    public List<Goal> getBal_goals() {
+
+   
+
+
+    public Collection<Goal> getBal_goals() {
         return bal_goals;
     }
 
-    public void setBal_goals(List<Goal> bal_goals) {
+    public void setBal_goals(Collection<Goal> bal_goals) {
         this.bal_goals = bal_goals;
     }
 
@@ -117,7 +124,51 @@ public class Balance implements Serializable {
     public void setBal_user(User bal_user) {
         this.bal_user = bal_user;
     }
-    
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.bal_id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Balance other = (Balance) obj;
+        if (!Objects.equals(this.bal_name, other.bal_name)) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_desc, other.bal_desc)) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_id, other.bal_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_total, other.bal_total)) {
+            return false;
+        }
+        if (this.bal_BalanceStatus != other.bal_BalanceStatus) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_transactions, other.bal_transactions)) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_goals, other.bal_goals)) {
+            return false;
+        }
+        if (!Objects.equals(this.bal_user, other.bal_user)) {
+            return false;
+        }
+        return true;
+    }
+     
 }

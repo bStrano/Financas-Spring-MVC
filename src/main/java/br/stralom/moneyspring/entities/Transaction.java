@@ -9,9 +9,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,7 +47,6 @@ public class Transaction implements Serializable {
     private Long tra_id;
     @NotNull
     private String tra_name;
-    @NotNull
     private String tra_desc;
     private BigDecimal tra_value;
     @Temporal(TemporalType.DATE)
@@ -53,22 +55,24 @@ public class Transaction implements Serializable {
     @Enumerated(EnumType.STRING)
     private TypeTransaction tra_typeTransaction;
     private String tra_invoicePath;
+    private int tra_numInstalments;
+    
     @ManyToOne
     @JoinColumn(name="tra_company")
     private Company tra_company;
     
-    @ManyToMany(mappedBy="bal_transactions")
-    private List<Balance> tra_balances = new ArrayList<>();
-    
     @OneToMany(mappedBy = "ins_transaction")
-    private List<Installment> tra_installments = new ArrayList<>();
+    private Collection<Instalment> tra_instalments = new ArrayList<>();
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy="bal_transactions", cascade = CascadeType.ALL)
+    private Set<Balance> tra_balances = new HashSet<>();
+    
+    @ManyToMany
     @JoinTable(
         name = "tb_transactions_category",joinColumns=
         {@JoinColumn(name="tra_id")},inverseJoinColumns = 
         {@JoinColumn(name="cat_id")})
-    private List<Category> tra_categories = new ArrayList<>();
+    private Set<Category> tra_categories = new HashSet<>();
 
 
     
@@ -139,57 +143,48 @@ public class Transaction implements Serializable {
         this.tra_company = tra_company;
     }
 
-    public List<Balance> getTra_balances() {
+    public Collection<Instalment> getTra_instalments() {
+        return tra_instalments;
+    }
+
+    public void setTra_instalments(Collection<Instalment> tra_instalments) {
+        this.tra_instalments = tra_instalments;
+    }
+
+    public Set<Balance> getTra_balances() {
         return tra_balances;
     }
 
-    public void setTra_balances(List<Balance> tra_balances) {
+    public void setTra_balances(Set<Balance> tra_balances) {
         this.tra_balances = tra_balances;
     }
 
-    public List<Installment> getTra_installments() {
-        return tra_installments;
+    public Set<Category> getTra_categories() {
+        return tra_categories;
     }
 
-    public void setTra_installments(List<Installment> tra_installments) {
-        this.tra_installments = tra_installments;
-    }
-
-    
-
-    
-
-    
-    // READ-ONLY
-    public List<Category> getTra_categories() {
-        return this.tra_categories;
+    public void setTra_categories(Set<Category> tra_categories) {
+        this.tra_categories = tra_categories;
     }
     
     public void addCategory(Category category){
         this.tra_categories.add(category);
     }
 
-    public void setTra_categories(List<Category> tra_categories) {
-        this.tra_categories = tra_categories;
+    public int getTra_numInstalments() {
+        return tra_numInstalments;
     }
 
-    
-    
-    @Override
-    public String toString() {
-        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_date=" + tra_date + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_categories=" + tra_categories + '}';
+    public void setTra_numInstalments(int tra_numInstalments) {
+        this.tra_numInstalments = tra_numInstalments;
     }
+    
+    
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.tra_id);
-        hash = 19 * hash + Objects.hashCode(this.tra_name);
-        hash = 19 * hash + Objects.hashCode(this.tra_desc);
-        hash = 19 * hash + Objects.hashCode(this.tra_value);
-        hash = 19 * hash + Objects.hashCode(this.tra_date);
-        hash = 19 * hash + Objects.hashCode(this.tra_typeTransaction);
-        hash = 19 * hash + Objects.hashCode(this.tra_categories);
+        hash = 23 * hash + Objects.hashCode(this.tra_id);
         return hash;
     }
 
@@ -211,6 +206,9 @@ public class Transaction implements Serializable {
         if (!Objects.equals(this.tra_desc, other.tra_desc)) {
             return false;
         }
+        if (!Objects.equals(this.tra_invoicePath, other.tra_invoicePath)) {
+            return false;
+        }
         if (!Objects.equals(this.tra_id, other.tra_id)) {
             return false;
         }
@@ -223,11 +221,28 @@ public class Transaction implements Serializable {
         if (this.tra_typeTransaction != other.tra_typeTransaction) {
             return false;
         }
+        if (!Objects.equals(this.tra_company, other.tra_company)) {
+            return false;
+        }
+        if (!Objects.equals(this.tra_instalments, other.tra_instalments)) {
+            return false;
+        }
+        if (!Objects.equals(this.tra_balances, other.tra_balances)) {
+            return false;
+        }
         if (!Objects.equals(this.tra_categories, other.tra_categories)) {
             return false;
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_invoicePath=" + tra_invoicePath + ", tra_numInstalments=" + tra_numInstalments + ", tra_company=" + tra_company + ", tra_installments=" + tra_instalments + ", tra_balances=" + tra_balances + ", tra_categories=" + tra_categories + '}';
+    }
+
+    
+ 
 
     
     

@@ -6,6 +6,7 @@
 package br.stralom.moneyspring.validations;
 
 import br.stralom.moneyspring.entities.Transaction;
+import br.stralom.moneyspring.form.TransactionForm;
 import java.util.Calendar;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -21,24 +22,24 @@ public class TransactionValidation implements Validator {
     public boolean supports(Class<?> clazz) {
         // Verifica se a classe recebida no parametro é de fato uma Transaction.
         // O Spring vai verificar se o objeto recebido é instancia da classe Transaction
-        return Transaction.class.isAssignableFrom(clazz);
+        return TransactionForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"tra_name","field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_desc", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_value", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_typeTransaction", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_date", "field.required");
+        //ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_desc", "field.required");
+       // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_value", "field.required");
+      //  ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_typeTransaction", "field.required");
+     //   ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tra_date", "field.required");
         
-       Transaction transaction = (Transaction) target;
-       System.out.println(transaction.getTra_date().get(Calendar.YEAR));
-        if( (transaction.getTra_date().get(Calendar.YEAR) > 2200) || (transaction.getTra_date().get(Calendar.DAY_OF_MONTH) > 31 )|| (transaction.getTra_date().get(Calendar.MONTH) > 12) ){
+      // Transaction transaction = (Transaction) target;
+      // System.out.println(transaction.getTra_date().get(Calendar.YEAR));
+      //  if( (transaction.getTra_date().get(Calendar.YEAR) > 2200) || (transaction.getTra_date().get(Calendar.DAY_OF_MONTH) > 31 )|| (transaction.getTra_date().get(Calendar.MONTH) > 12) ){
             
         
-            errors.rejectValue("tra_date", "invalid.input");
-        }
+       //     errors.rejectValue("tra_date", "invalid.input");
+       // }
         
         
         //ValidationUtils.rejectIfEmpty(errors, "tra_categories", "field.required");

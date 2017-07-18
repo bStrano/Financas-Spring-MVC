@@ -5,7 +5,9 @@
  */
 package br.stralom.moneyspring.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="tb_goal")
-public class Goal {
+public class Goal implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long goal_id;
@@ -87,6 +89,49 @@ public class Goal {
 
     public void setGoal_balance(Balance goal_balance) {
         this.goal_balance = goal_balance;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.goal_id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Goal other = (Goal) obj;
+        if (Double.doubleToLongBits(this.goal_percentage) != Double.doubleToLongBits(other.goal_percentage)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_name, other.goal_name)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_desc, other.goal_desc)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_imagePath, other.goal_imagePath)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_id, other.goal_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_value, other.goal_value)) {
+            return false;
+        }
+        if (!Objects.equals(this.goal_balance, other.goal_balance)) {
+            return false;
+        }
+        return true;
     }
     
     

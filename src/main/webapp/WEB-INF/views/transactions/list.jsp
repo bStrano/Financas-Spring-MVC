@@ -27,6 +27,7 @@
                 <td>Tipo</td>
                 <td>Categorias</td>
                 <td>Data</td>
+                <td>Company</td>
             </tr>
             <c:forEach var="tra" items="${listTransaction}">
                 <tr>
@@ -41,7 +42,7 @@
                     <td>
                         <fmt:formatDate value="${tra.tra_date.time}" pattern="dd/MM/yyyy"/>
                     </td>
-                    
+                    <td>${tra.tra_company}</td>
                 </tr>
             </c:forEach>
         </table>

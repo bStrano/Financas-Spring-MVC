@@ -13,6 +13,10 @@
     </head>
     <body>
         <a href="transactions/form">Form</a>
+        <br/>
+        <a href="transactions/formTest">FormTest</a><br/>
+        <a href="transactions/companies/form">Form Company</a><br/>
+        <a href="transactions/categories/form">Form Category</a><br/>
         <h1>MoneyEE</h1>
         <table>
             <tr>

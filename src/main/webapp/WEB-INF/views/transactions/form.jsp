@@ -20,7 +20,7 @@
 
         <div></div>
         <spring:url value="/transactions" var="transactions"/>
-        <form:form action="${transactions}" method="POST" commandName="transaction" enctype="multipart/form-data">
+        <form:form action="${transactions}" method="POST" commandName="transactionForm" enctype="multipart/form-data">
             <div>
 
                 <label for="tra_name">Nome: </label>          
@@ -56,8 +56,27 @@
             </div>
 
             <div>
-                <!-- <form:select path="tra_categories" items="${listCategory}"  multiple="true"/>
-                -->
+                <form:select itemValue="cat_id" itemLabel="cat_name" items="${listCategory}" path="category_id"/>   
+                <form:errors path="category_id" />
+            </div>
+
+            <div>
+                <form:select path="company_id" items="${listCompany}" itemLabel="com_name" itemValue="com_id" style="width: 100px;"/>
+                <form:errors path="company_id" />
+            </div>
+            
+            <div>
+                <form:select path="balance_id" items="${listBalance}" itemLabel="bal_name" itemValue="bal_id"/>
+            </div>
+
+            <h2>Parcelamento</h2>
+            <div>
+                <label for="tra_numInstalments">Numero de Parcelas</label>
+                <form:input type="number" path="tra_numInstalments" value="0" max="240" min="0"/>
+            </div>
+            <div>
+                <label for="ins_interestRate">Juros</label>
+                <form:input type="number" path="ins_interestRate" value="0" max="100" min="0"/>
             </div>
             <button type="submit">Cadastrar Transação</button>
         </form:form>
