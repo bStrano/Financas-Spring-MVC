@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,11 @@
     <body>
         <a href="transactions/form">Form</a>
         <br/>
-        <a href="transactions/formTest">FormTest</a><br/>
+        <form action="transactions/info" method="GET">
+            <label for="name">Nome:  </label>
+            <input type="text" name="name" >
+           <input type="submit" value="Buscar pelo Nome"/>
+        </form>
         <a href="transactions/companies/form">Form Company</a><br/>
         <a href="transactions/categories/form">Form Category</a><br/>
         <h1>MoneyEE</h1>

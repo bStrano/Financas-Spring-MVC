@@ -17,22 +17,39 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Bruno Strano
  */
-
 @Repository
 @Transactional
 public class TransactionDAO {
-    
+
     @PersistenceContext
     private EntityManager em;
-    
-    public void gravar(Transaction transaction){
+
+    public void gravar(Transaction transaction) {
         em.persist(transaction);
     }
-    
-    public List<Transaction> showAll(){
+
+    public List<Transaction> showAll() {
         String jpql = "select distinct t from Transaction t join fetch t.tra_categories";
         TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
         return traQuery.getResultList();
     }
-    
+
+    public List<Transaction> findLikeName(String name) {
+        String jpql = "select t from Transaction t where t.tra_name like :pName";
+        TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
+        traQuery.setParameter("pName", name);
+        return traQuery.getResultList();
+    }
+
+    public Transaction findByName(String name) {
+        String jpql = "select tra from Transaction tra "
+                +"join fetch tra.tra_instalments "
+                +"join fetch tra.tra_categories "
+                +"join fetch  tra.tra_company "
+                +"where tra.tra_name like :pName ";
+        TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
+        traQuery.setParameter("pName", name);
+        return traQuery.getSingleResult();
+    }
+
 }

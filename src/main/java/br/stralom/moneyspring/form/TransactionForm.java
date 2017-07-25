@@ -43,7 +43,7 @@ public class TransactionForm {
     private Long company_id;
     private int tra_numInstalments;
     private BigDecimal ins_interestRate;
-    private Long balance_id;
+    
     
     public String getTra_name() {
         return tra_name;
@@ -167,7 +167,7 @@ public class TransactionForm {
             } else {
                 ins.setIns_interestRate(ins_interestRate);
                 instalmentValue =  instalmentValue.multiply(absolutInterestRate).add(instalmentValue);
-                ins.setIns_value(instalmentValue);
+                ins.setIns_value(instalmentValue.subtract(initialCapital).add(ins_value));
                 
                 //ins.setIns_value(calcCompoundInteres(initialCapital, interestRate, tra_numInstalments));
             }

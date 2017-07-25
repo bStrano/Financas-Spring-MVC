@@ -64,9 +64,11 @@
                 <form:select path="company_id" items="${listCompany}" itemLabel="com_name" itemValue="com_id" style="width: 100px;"/>
                 <form:errors path="company_id" />
             </div>
-            
+
             <div>
+                <%-- 
                 <form:select path="balance_id" items="${listBalance}" itemLabel="bal_name" itemValue="bal_id"/>
+                --%>
             </div>
 
             <h2>Parcelamento</h2>

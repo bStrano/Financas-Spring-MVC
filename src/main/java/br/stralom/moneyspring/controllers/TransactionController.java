@@ -18,6 +18,7 @@ import br.stralom.moneyspring.entities.Transaction;
 import br.stralom.moneyspring.form.TransactionForm;
 import br.stralom.moneyspring.infra.FileSaver;
 import br.stralom.moneyspring.validations.TransactionValidation;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +32,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -66,6 +69,7 @@ public class TransactionController {
         //binder.addValidators(new TransactionValidation());
     }
 
+    
     @RequestMapping("/form")
     public ModelAndView form(TransactionForm transactionForm) {
         ModelAndView modelAndView = new ModelAndView("transactions/form");
@@ -115,6 +119,29 @@ public class TransactionController {
         modelAndView.addObject("listTransaction", listTra);
         return modelAndView;
     }
+
+    /**
+    @RequestMapping(value="/info", method = RequestMethod.POST)
+    public ModelAndView info(String name){
+        System.out.println("test");
+        
+        String saida = "transactions/info2/"+name;
+        System.out.println(saida);
+        //return saida;
+        return new ModelAndView(saida);
+    }
+    **/
+    
+    @RequestMapping("/info")
+    public ModelAndView infoTest(@RequestParam("name") String name){
+        System.out.println(name);
+        ModelAndView modelAndView = new ModelAndView("transactions/info");
+        Transaction transaction = traDAO.findByName(name);
+        modelAndView.addObject("tra", transaction);
+        return modelAndView;
+    }
+    
+    
 
     @RequestMapping("/categories/form")
     public String formCategory() {
