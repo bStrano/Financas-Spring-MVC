@@ -51,5 +51,26 @@ public class TransactionDAO {
         traQuery.setParameter("pName", name);
         return traQuery.getSingleResult();
     }
+    
+    public List<Transaction> findAll(){
+        String jpql = "select tra from Transaction tra"
+                + " join fetch tra.tra_instalments"
+                + " where tra.tra_numInstalments > 0 ";
+        TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
+        return traQuery.getResultList();
+
+    }
+    
+        public List<Transaction> findAllWithInstalment(){
+        String jpql = "select tra from Transaction tra"
+                +" join fetch tra.tra_instalments"
+                +" join fetch tra.tra_categories"
+                +" join fetch tra.tra_company";
+        TypedQuery<Transaction> insQuery = em.createQuery(jpql, Transaction.class);
+        
+        return insQuery.getResultList();
+        
+    }
+    
 
 }

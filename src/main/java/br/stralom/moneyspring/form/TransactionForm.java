@@ -160,8 +160,11 @@ public class TransactionForm {
         for (int i = 0; i < this.tra_numInstalments; i++) {
             ins_value = this.tra_value.divide(new BigDecimal(tra_numInstalments), 4 , RoundingMode.HALF_UP);
             ins_date.add(Calendar.DAY_OF_MONTH, 30);
+            Calendar teste = (Calendar) ins_date.clone();
             Instalment ins = new Instalment();
-            ins.setIns_date(ins_date);
+            ins.setIns_date(teste);
+            System.out.println("X-             " + ins.getIns_date().get(Calendar.MONTH));
+            ins.setIns_interestRate( ins_interestRate);
             if (this.ins_interestRate.intValue() == 0) {
                 ins.setIns_value(ins_value);      
             } else {

@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -112,10 +114,11 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showAll() {
         ModelAndView modelAndView = new ModelAndView("transactions/list");
-        List<Transaction> listTra = traDAO.showAll();
-        for (Transaction transaction : listTra) {
-            System.out.println("Transaction: " + transaction.getTra_categories());
-        }
+        //List<Transaction> listTra = traDAO.showAll();
+        List<Transaction> listTra = traDAO.findAllWithInstalment();
+
+        //System.out.println("Transactions sem Parcela: " + traDAO.findAll());
+        Collections.sort(listTra, Comparator.comparing(Transaction::getTra_date).reversed());
         modelAndView.addObject("listTransaction", listTra);
         return modelAndView;
     }

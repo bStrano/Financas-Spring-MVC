@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -56,6 +58,8 @@ public class Transaction implements Serializable {
     private TypeTransaction tra_typeTransaction;
     private String tra_invoicePath;
     private int tra_numInstalments;
+    @Transient
+    private int tra_numInstalmentsRemaining = -1;
     
     @ManyToOne
     @JoinColumn(name="tra_company")
@@ -178,9 +182,15 @@ public class Transaction implements Serializable {
     public void setTra_numInstalments(int tra_numInstalments) {
         this.tra_numInstalments = tra_numInstalments;
     }
-    
-    
 
+    public int getTra_numInstalmentsRemaining() {
+        return tra_numInstalmentsRemaining;
+    }
+
+    public void setTra_numInstalmentsRemaining(int tra_numInstalmentsRemaining) {
+        this.tra_numInstalmentsRemaining = tra_numInstalmentsRemaining;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
