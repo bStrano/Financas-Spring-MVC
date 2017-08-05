@@ -12,22 +12,23 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-/**
- *
- * @author Bruno Strano
- */
+
 
 
 public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer{
 
+    // Carregado ao iniciar o sistema
     @Override
     protected Class<?>[] getRootConfigClasses() {
-       return null;
+        //return new Class[] {RootConfiguration.class};
+       return new Class[] { SecurityConfig.class, AppWebConfiguration.class, JPAConfiguration.class, CustomLogoutSucessHandler.class};
+       //return new Class[] {SecurityConfiguration.class};
     }
 
+    // Carregado ao acessar a aplicação
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] {AppWebConfiguration.class, JPAConfiguration.class};
+        return new Class[] {};
     }
 
     @Override

@@ -14,6 +14,7 @@ import br.stralom.moneyspring.infra.FileSaver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class, TransactionDAO.class, FileSaver.class, TransactionForm.class})
         //"web.xml" do spring
+        
 class AppWebConfiguration {
     
     @Bean

@@ -17,7 +17,9 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-
+        <form:form action="${pageContext.request.contextPath}/homeLogout" method="POST">
+           <input type="submit" value="Logout"/>
+        </form:form>   
         <div></div>
         <spring:url value="/transactions" var="transactions"/>
         <form:form action="${transactions}" method="POST" commandName="transactionForm" enctype="multipart/form-data">
