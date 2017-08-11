@@ -25,7 +25,9 @@ public class UserDAO implements UserDetailsService{
     @PersistenceContext
     private EntityManager em;
     
-
+   public User find(Long id){
+        return em.find(User.class, id);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -39,5 +41,9 @@ public class UserDAO implements UserDetailsService{
         }
         
         return user;
+    }
+    
+        public void merge(User user) {
+        em.merge(user);
     }
 }

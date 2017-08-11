@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -51,6 +52,9 @@ public class User implements Serializable, UserDetails {
             joinColumns = {@JoinColumn(name="user_id")},
             inverseJoinColumns = {@JoinColumn(name="role_name")})
     private List<Role> user_roles = new ArrayList<>();
+    @OneToMany(mappedBy = "cat_user", cascade = CascadeType.ALL)
+    private List<Category> user_categories = new ArrayList<>();
+    
     
     public User() {
     }
@@ -114,6 +118,15 @@ public class User implements Serializable, UserDetails {
         this.user_roles = user_roles;
     }
 
+    public List<Category> getUser_categories() {
+        return user_categories;
+    }
+
+    public void setUser_categories(List<Category> user_categories) {
+        this.user_categories = user_categories;
+    }
+        
+    
     
     
     @Override

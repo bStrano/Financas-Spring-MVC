@@ -40,6 +40,9 @@ public class Category implements Serializable {
     private String cat_name;
     @ManyToMany(mappedBy="tra_categories")
     private Set<Transaction> cat_transactions = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User cat_user;
     
     public Category() {
     }
@@ -80,6 +83,14 @@ public class Category implements Serializable {
 
     public void setCat_transactions(Set<Transaction> cat_transactions) {
         this.cat_transactions = cat_transactions;
+    }
+
+    public User getCat_user() {
+        return cat_user;
+    }
+
+    public void setCat_user(User cat_user) {
+        this.cat_user = cat_user;
     }
 
 

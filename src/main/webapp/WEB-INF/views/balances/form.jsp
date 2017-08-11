@@ -6,29 +6,24 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib tagdir="/WEB-INF/tags/" prefix="tags" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<c:url value="/resources/css" var="cssPath" />
+<tags:pageTemplate cssPath="${cssPath}" title="Novo Saldo">
+    <main>
         <h1>Balance Cadastro</h1>
         <form:form>
             <div>
                 <label for="bal_name">Nome: </label>
                 <form:input path="bal_name" type="text" />
             </div>
-            
+
             <div>
                 <label for="bal_desc">Descrição: </label>
                 <form:textarea cols="20" rows="10" path="bal_desc" /> 
-            </div>
-          
-                
-           
-            
-            
+            </div>    
         </form:form>
-    </body>
-</html>
+
+
+    </main>
+</tags:pageTemplate>

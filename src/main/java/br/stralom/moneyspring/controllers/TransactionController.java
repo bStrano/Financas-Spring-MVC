@@ -10,11 +10,14 @@ import br.stralom.moneyspring.dao.CategoryDAO;
 import br.stralom.moneyspring.dao.CompanyDAO;
 import br.stralom.moneyspring.dao.InstalmentDAO;
 import br.stralom.moneyspring.dao.TransactionDAO;
+import br.stralom.moneyspring.dao.UserDAO;
 import br.stralom.moneyspring.entities.Balance;
 import br.stralom.moneyspring.entities.Category;
 import br.stralom.moneyspring.entities.Company;
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
+import br.stralom.moneyspring.entities.User;
+import br.stralom.moneyspring.form.CategoryForm;
 import br.stralom.moneyspring.form.TransactionForm;
 import br.stralom.moneyspring.infra.FileSaver;
 import br.stralom.moneyspring.validations.TransactionValidation;
@@ -28,8 +31,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -62,7 +67,9 @@ public class TransactionController {
     private BalanceDAO balDAO;
     @Autowired
     private FileSaver fileSaver;
-
+    @Autowired
+    private UserDAO userDAO;
+    
     @InitBinder
     // O Binder, é responsavel por conectar  duas coisas. Por exemplo os dados do
     // formulário com o objeto da classe Transaction.
@@ -153,7 +160,8 @@ public class TransactionController {
     }
 
     @RequestMapping("/categories")
-    public String saveCategory(Category cat) {
+    public String saveCategory(@AuthenticationPrincipal User user, Category cat) {
+        cat.setCat_user(user);
         System.out.println(cat);
         catDAO.save(cat);
         return "transactions/ok";

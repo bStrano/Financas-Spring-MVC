@@ -5,16 +5,15 @@ and open the template in the editor.
 */
 /* 
     Created on : 16/06/2017, 09:46:48
-    Author     : 1513 IRON
+    Author     : Bruno Strano
 */
 
 * {
     /* font-family: 'Raleway', sans-serif; */
 }
 
-
-body{
-    margin-top: 10em;
+.bodyCss {
+    padding-top: 10em;
 }
 
 footer{

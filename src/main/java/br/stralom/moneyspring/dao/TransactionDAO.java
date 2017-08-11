@@ -5,6 +5,7 @@
  */
 package br.stralom.moneyspring.dao;
 
+import br.stralom.moneyspring.entities.Category;
 import br.stralom.moneyspring.entities.Transaction;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -28,6 +29,14 @@ public class TransactionDAO {
         em.persist(transaction);
     }
 
+    public Transaction find(Long id) {
+        return em.find(Transaction.class, id);
+    }
+
+    public void merge(Transaction transaction) {
+        em.merge(transaction);
+    }
+
     public List<Transaction> showAll() {
         String jpql = "select distinct t from Transaction t join fetch t.tra_categories";
         TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
@@ -43,16 +52,16 @@ public class TransactionDAO {
 
     public Transaction findByName(String name) {
         String jpql = "select tra from Transaction tra "
-                +"join fetch tra.tra_instalments "
-                +"join fetch tra.tra_categories "
-                +"join fetch  tra.tra_company "
-                +"where tra.tra_name like :pName ";
+                + "join fetch tra.tra_instalments "
+                + "join fetch tra.tra_categories "
+                + "join fetch  tra.tra_company "
+                + "where tra.tra_name like :pName ";
         TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
         traQuery.setParameter("pName", name);
         return traQuery.getSingleResult();
     }
-    
-    public List<Transaction> findAll(){
+
+    public List<Transaction> findAll() {
         String jpql = "select tra from Transaction tra"
                 + " join fetch tra.tra_instalments"
                 + " where tra.tra_numInstalments > 0 ";
@@ -60,17 +69,16 @@ public class TransactionDAO {
         return traQuery.getResultList();
 
     }
-    
-        public List<Transaction> findAllWithInstalment(){
+
+    public List<Transaction> findAllWithInstalment() {
         String jpql = "select tra from Transaction tra"
-                +" join fetch tra.tra_instalments"
-                +" join fetch tra.tra_categories"
-                +" join fetch tra.tra_company";
+                + " join fetch tra.tra_instalments"
+                + " join fetch tra.tra_categories"
+                + " join fetch tra.tra_company";
         TypedQuery<Transaction> insQuery = em.createQuery(jpql, Transaction.class);
-        
+
         return insQuery.getResultList();
-        
+
     }
-    
 
 }

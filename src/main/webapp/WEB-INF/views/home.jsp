@@ -4,22 +4,20 @@
     Author     : Bruno Strano
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<c:url value="/resources/css" var="cssPath" />
 
+<html>
+    <tags:pageTemplate title="Home" cssPath="${cssPath}">
         <security:authorize access="isAuthenticated()" >
             <security:authentication property="principal" var="user"/>
-            <p>Usu√°rio logado: ${user.user_name}</p>
-            <p>Roles do usu√°rio: ${user.user_roles}</p>
+            <p>Usu·rio logado: ${user.user_name}</p>
+            <p>Roles do usu·rio: ${user.user_roles}</p>
         </security:authorize>
         <a href="users/login">Fazer Login</a> <br/>
         <a href="transactions/form">Form</a>
@@ -31,24 +29,12 @@
         </form>
         <a href="transactions/companies/form">Form Company</a><br/>
         <a href="transactions/categories/form">Form Category</a><br/>
-        <h1>MoneyEE</h1>
-        <table>
-            <tr>
-                <td>Transacoes</td>
-                <td>Teste</td>
-            </tr>     
-            <tr>
-                <td>Transacoes 2 </td>
-                <td>Teste</td>
-            </tr>    
-            <tr>
-                <td>Transacoes 3</td>
-                <td>Teste</td>
-            </tr>
-        </table>
+        <h1>Spring MVC</h1>
+
         <p>${pageContext.request.contextPath}</p>
-    <form:form action="${pageContext.request.contextPath}/homeLogout" method="POST">
-        <input type="submit" value="Logout"/>
-    </form:form>   
-</body>
+        <form:form action="${pageContext.request.contextPath}/homeLogout" method="POST">
+            <input type="submit" value="Logout"/>
+        </form:form>
+
+    </tags:pageTemplate>
 </html>

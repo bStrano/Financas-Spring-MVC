@@ -4,22 +4,21 @@
     Author     : Bruno Strano
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@taglib tagdir="/WEB-INF/tags/" prefix="tags" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Cadastro de Categoria</h1>
-        <form action="/MoneySpring-1.0/transactions/categories" method="POST" >
-            <div>
-                <label for="cat_name"> Nome: </label>
-                <input type="text" name="cat_name"/>
-            </div>
-            
-            <input type="submit" value="Submit"/>
-        </form>
-    </body>
-</html>
+<c:url value="/resources/css" var="cssPath" />
+<tags:pageTemplate cssPath="${cssPath}" title="Cadastro Categoria">
+    <h1>Cadastro de Categoria</h1>
+    <c:url value="/transactions/categories" var="categories" />
+    <form action="${categories}" method="POST" >
+        <div>
+            <label for="cat_name"> Nome: </label>
+            <input type="text" name="cat_name"/>
+        </div>
+        <input type="submit" value="Submit"/>
+        <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+    </form>
+</tags:pageTemplate>
