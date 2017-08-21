@@ -34,7 +34,9 @@ public class Company implements Serializable {
    private String com_name;
    @OneToMany(mappedBy="tra_company")
    private Set<Transaction> com_transactions = new HashSet<>();
-
+   @ManyToOne @JoinColumn(name="user_id")
+   private User com_user;
+   
     public Company() {
     }
 
@@ -68,6 +70,16 @@ public class Company implements Serializable {
         this.com_transactions = com_transactions;
     }
 
+    public User getCom_user() {
+        return com_user;
+    }
+
+    public void setCom_user(User com_user) {
+        this.com_user = com_user;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 5;

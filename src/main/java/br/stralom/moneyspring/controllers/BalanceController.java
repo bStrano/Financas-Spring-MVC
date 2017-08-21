@@ -8,6 +8,7 @@ package br.stralom.moneyspring.controllers;
 import br.stralom.moneyspring.dao.BalanceDAO;
 import br.stralom.moneyspring.entities.Balance;
 import br.stralom.moneyspring.entities.User;
+import br.stralom.moneyspring.services.BalanceService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,9 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/balances")
 public class BalanceController {
     
-    @Autowired
-    private BalanceDAO balDAO;
             
+    @Autowired
+    private BalanceService balSVC;
     
     @RequestMapping(value = "/form", method = RequestMethod.GET)
     public String form(Balance balance){
@@ -35,17 +36,14 @@ public class BalanceController {
     
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public String save(@AuthenticationPrincipal User user, Balance balance){
-        balance.setBal_user(user);
-        balDAO.save(balance);
+        balSVC.save(user, balance);
         return "home";
     }
     
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView list(@AuthenticationPrincipal User user){
-        List<Balance> balances = balDAO.findAll(user.getUser_id());
         ModelAndView modelAndView = new ModelAndView("balances/list");
-        System.out.println(balances);
-        modelAndView.addObject("listBalance", balances);
+        modelAndView.addObject("listBalance", balSVC.getAll(user.getUser_id()));
         return modelAndView;
         
     }

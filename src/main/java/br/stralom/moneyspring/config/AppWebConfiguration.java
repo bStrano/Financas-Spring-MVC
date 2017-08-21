@@ -11,6 +11,7 @@ import br.stralom.moneyspring.dao.TransactionDAO;
 import br.stralom.moneyspring.entities.Category;
 import br.stralom.moneyspring.form.TransactionForm;
 import br.stralom.moneyspring.infra.FileSaver;
+import br.stralom.moneyspring.services.TransactionService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +35,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 // Habilitando uso do Spring MVC
 @EnableWebMvc
-@ComponentScan(basePackageClasses = {HomeController.class, TransactionDAO.class, FileSaver.class, TransactionForm.class})
+@ComponentScan(basePackageClasses = {HomeController.class, TransactionDAO.class, FileSaver.class, TransactionForm.class, TransactionService.class})
         //"web.xml" do spring
         
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {

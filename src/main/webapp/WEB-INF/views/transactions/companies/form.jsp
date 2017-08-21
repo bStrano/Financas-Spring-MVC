@@ -14,12 +14,12 @@
 <tags:pageTemplate cssPath="${cssPath}" title="Cadastrar Empresa">
 <main>
     <h1>Company</h1>
-    <form action="/MoneySpring-1.0/transactions/companies"  method="POST">
+    <form:form action="/MoneySpring-1.0/transactions/companies"  commandName="company" method="POST">
         <div>
             <label for="com_name">Nome: </label>
-            <input type="text" path="com_name" name="com_name"/>
+            <form:input type="text" path="com_name" name="com_name"/>
         </div>
         <button type="submit">Cadastrar Transação</button>
-    </form>
+    </form:form>
 </main>
 </tags:pageTemplate>

@@ -147,18 +147,5 @@ public class TransactionController {
         modelAndView.addObject("tra", transaction);
         return modelAndView;
     }
-    
-    
 
-
-    @RequestMapping("/companies/form")
-    public String formCompany() {
-        return "transactions/companies/form";
-    }
-
-    @RequestMapping("companies")
-    public String saveCompany(Company company) {
-        comDAO.save(company);
-        return "transactions/ok";
-    }
 }
