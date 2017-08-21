@@ -7,6 +7,7 @@ package br.stralom.moneyspring.dao;
 
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,11 +31,12 @@ public class InstalmentDAO {
                 + " join fetch i.ins_transaction t"
                 + " join fetch t.tra_categories"
                 + " where t.tra_balance.bal_id = :pBalance"
-                + " ORDER BY i.ins_date", Instalment.class).setParameter("pBalance", idBalance)
+                + " ORDER BY i.ins_date DESC", Instalment.class).setParameter("pBalance", idBalance)
                 .getResultList();
     }
 
     public void save(Instalment ins) {
         em.persist(ins);
     }
+    
 }

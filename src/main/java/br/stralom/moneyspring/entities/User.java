@@ -54,7 +54,8 @@ public class User implements Serializable, UserDetails {
     private List<Role> user_roles = new ArrayList<>();
     @OneToMany(mappedBy = "cat_user", cascade = CascadeType.ALL)
     private List<Category> user_categories = new ArrayList<>();
-    
+    @OneToMany(mappedBy = "com_user", cascade = CascadeType.ALL)
+    private Collection<Company> user_companies = new ArrayList<>();
     
     public User() {
     }
@@ -126,6 +127,14 @@ public class User implements Serializable, UserDetails {
 
     public void setUser_categories(List<Category> user_categories) {
         this.user_categories = user_categories;
+    }
+
+    public Collection<Company> getUser_companies() {
+        return user_companies;
+    }
+
+    public void setUser_companies(Collection<Company> user_companies) {
+        this.user_companies = user_companies;
     }
         
     

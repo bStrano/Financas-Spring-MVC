@@ -17,21 +17,16 @@ import br.stralom.moneyspring.entities.Company;
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
 import br.stralom.moneyspring.entities.User;
-import br.stralom.moneyspring.form.CategoryForm;
 import br.stralom.moneyspring.form.TransactionForm;
 import br.stralom.moneyspring.infra.FileSaver;
-import br.stralom.moneyspring.validations.TransactionValidation;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import br.stralom.moneyspring.services.BalanceService;
+import br.stralom.moneyspring.services.CategoryService;
+import br.stralom.moneyspring.services.CompanyService;
+import br.stralom.moneyspring.services.InstalmentService;
+import br.stralom.moneyspring.services.TransactionService;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,7 +34,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,15 +50,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TransactionController {
 
     @Autowired
-    private TransactionDAO traDAO;
+    private TransactionService traSVC;
     @Autowired
-    private CompanyDAO comDAO;
+    private CompanyService comSVC;
     @Autowired
-    private CategoryDAO catDAO;
+    private CategoryService catSVC;
     @Autowired
-    private InstalmentDAO insDAO;
+    private InstalmentService insSVC;
     @Autowired
-    private BalanceDAO balDAO;
+    private BalanceService balSVC;
     @Autowired
     private FileSaver fileSaver;
     @Autowired
@@ -82,34 +76,24 @@ public class TransactionController {
     @RequestMapping("/form")
     public ModelAndView form(@AuthenticationPrincipal User user, TransactionForm transactionForm) {
         ModelAndView modelAndView = new ModelAndView("transactions/form");
-        List<Category> listCategory = catDAO.findAll(user.getUser_id());
-        modelAndView.addObject("listCategory", listCategory);
-        List<Company> listCompany = comDAO.findAll();
-        modelAndView.addObject("listCompany", listCompany);
-        List<Balance> listBalance =  balDAO.findAll(user.getUser_id());
-        modelAndView.addObject("listBalance", listBalance);
+        modelAndView.addObject("listCategory", catSVC.findAll(user.getUser_id()));
+        modelAndView.addObject("listCompany", comSVC.findAll(user.getUser_id()));
+        modelAndView.addObject("listBalance", balSVC.findAll(user.getUser_id()));
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView save( @AuthenticationPrincipal User user, MultipartFile invoice, @Valid TransactionForm transactionForm, BindingResult result, RedirectAttributes redirectAttributes) { 
- 
         if (result.hasErrors()) {
-            System.out.println(result.getErrorCount());
-            System.out.println(result.getAllErrors());
+//            System.out.println(result.getErrorCount());
+//            System.out.println(result.getAllErrors());
             return form(user, transactionForm);
         }
         Transaction transaction = transactionForm.build();
-        
-        
+          
         String path= fileSaver.write("/archives", invoice);
         transaction.setTra_invoicePath(path);
-        System.out.println("Informações da Transação : " + transaction);
-        traDAO.gravar(transaction);
-        for (Instalment tra_instalment : transaction.getTra_instalments()) {
-            tra_instalment.setIns_transaction(transaction);
-            insDAO.save(tra_instalment);
-        }
+        traSVC.save(transaction);
         
         redirectAttributes.addFlashAttribute("sucess", "Transação adicionada com sucesso"); 
         return new ModelAndView("redirect:transactions");
@@ -120,10 +104,10 @@ public class TransactionController {
     public ModelAndView showAll(@AuthenticationPrincipal User user ) {
         ModelAndView modelAndView = new ModelAndView("transactions/list");
         //List<Transaction> listTra = traDAO.showAll();
-        List<Instalment> listIns = insDAO.findAll(1L);
+        //List<Instalment> listIns = insSVC.findAll(1L);
         //System.out.println("Transactions sem Parcela: " + traDAO.findAll());
-        Collections.sort(listIns, Comparator.comparing(Instalment::getIns_date).reversed());
-        modelAndView.addObject("listInstalment", listIns);
+        //Collections.sort(listIns, Comparator.comparing(Instalment::getIns_date).reversed());
+        modelAndView.addObject("listInstalment", insSVC.findAll(1L));
         return modelAndView;
     }
 
@@ -143,22 +127,8 @@ public class TransactionController {
     public ModelAndView infoTest(@RequestParam("name") String name){
         System.out.println(name);
         ModelAndView modelAndView = new ModelAndView("transactions/info");
-        Transaction transaction = traDAO.findByName(name);
-        modelAndView.addObject("tra", transaction);
+        modelAndView.addObject("tra", traSVC.findByName(name));
         return modelAndView;
     }
-    
-    
 
-
-    @RequestMapping("/companies/form")
-    public String formCompany() {
-        return "transactions/companies/form";
-    }
-
-    @RequestMapping("companies")
-    public String saveCompany(Company company) {
-        comDAO.save(company);
-        return "transactions/ok";
-    }
 }

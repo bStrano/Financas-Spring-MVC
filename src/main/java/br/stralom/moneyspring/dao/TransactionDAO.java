@@ -25,7 +25,7 @@ public class TransactionDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public void gravar(Transaction transaction) {
+    public void save(Transaction transaction) {
         em.persist(transaction);
     }
 
