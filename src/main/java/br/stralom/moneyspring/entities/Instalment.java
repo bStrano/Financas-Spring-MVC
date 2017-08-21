@@ -38,6 +38,7 @@ public class Instalment implements Serializable {
     @ManyToOne
     @JoinColumn(name="ins_transaction")
     private Transaction ins_transaction;
+    private int ins_insRemaining;
     
     public Long getIns_id() {
         return ins_id;
@@ -78,6 +79,15 @@ public class Instalment implements Serializable {
     public void setIns_interestRate(BigDecimal ins_interestRate) {
         this.ins_interestRate = ins_interestRate;
     }
+
+    public int getIns_insRemaining() {
+        return ins_insRemaining;
+    }
+
+    public void setIns_insRemaining(int ins_insRemaining) {
+        this.ins_insRemaining = ins_insRemaining;
+    }
+    
     
     
 

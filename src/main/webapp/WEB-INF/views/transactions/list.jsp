@@ -8,15 +8,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib tagdir="/WEB-INF/tags/" prefix="tags" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <c:url var="cssPath" value="/resources/css"/>
-        <link rel="stylesheet" href="${cssPath}/bootstrap.min.css">
-    </head>
-    <body>
+<tags:pageTemplate title="Stralom - Lista de Transações">
         <div class="container">
             <div><p>${sucess}</p></div>
             <h1>Lista de Transações!</h1>
@@ -33,9 +27,10 @@
                     <td>Data</td>
                     <td>Company</td>
                 </tr>
-                <c:forEach var="tra" items="${listTransaction}">       
+                <c:forEach var="ins" items="${listInstalment}">
+                    
                     <c:choose>
-                        <c:when test="${tra.tra_typeTransaction == 'ENTRADA'}" >
+                        <c:when test="${ins.ins_transaction.tra_typeTransaction == 'ENTRADA'}" >
                             <tr class="success">
                             </c:when>
                             <c:otherwise>
@@ -43,35 +38,19 @@
                             </c:otherwise>
 
                         </c:choose>
-                        <td>${tra.tra_name}</td>
-                        <td>${tra.tra_desc}</td>
+                        <td>${ins.ins_transaction.tra_name}</td>
+                        <td>${ins.ins_transaction.tra_desc}</td>
                         <td>
                             <!-- http://www.tutorialspoint.com/jsp/jstl_format_formatnumber_tag.htm -->
-                            <c:choose>
-                                <c:when test="${tra.tra_numInstalments > 0}" >
-                                    <!-- The date also need this setTra_numInstalmentsRemaining above-->
-                                    ${tra.setTra_numInstalmentsRemaining(tra.getTra_numInstalmentsRemaining() + 1)}
-                                    <fmt:formatNumber value="${tra.tra_value}" type="currency"/>  (
-                                    <fmt:formatNumber value="${tra.tra_instalments[tra.tra_numInstalmentsRemaining].ins_value}" type="currency"/>)
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:formatNumber value="${tra.tra_value}" type="currency"/>(0)
-                                </c:otherwise>
-                            </c:choose>
+                            <fmt:formatNumber value="${ins.ins_value}" type="currency"/>  
+                            (<fmt:formatNumber value="${ins.ins_transaction.tra_value}" type="currency"/>)
                         </td>
-                        <td>${tra.tra_typeTransaction}</td>
-                        <td>${tra.tra_categories}</td>      
+                        <td>${ins.ins_transaction.tra_typeTransaction}</td>
+                        <td>${ins.ins_transaction.tra_categories}</td>      
                         <td>
-                            <c:choose>
-                                <c:when test="${tra.tra_numInstalments > 0}" >
-                                    <fmt:formatDate value="${tra.tra_instalments[tra.tra_numInstalmentsRemaining].ins_date.time}" pattern="dd/MM/yyyy"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:formatDate value="${tra.tra_date.time}" pattern="dd/MM/yyyy"/>
-                                </c:otherwise>
-                            </c:choose>
+                            <fmt:formatDate value="${ins.ins_date.time}" pattern="dd/MM/yyyy"/>
                         </td>
-                        <td>${tra.tra_company.com_name}</td>
+                        <td>${ins.ins_transaction.tra_company.com_name}</td>
                         <td>
                             <span class="glyphicon glyphicon-remove"></span>
 
@@ -80,5 +59,5 @@
                 </c:forEach>
             </table>
         </div>
-    </body>
-</html>
+</tags:pageTemplate>
+

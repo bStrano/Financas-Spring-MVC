@@ -21,10 +21,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class InstalmentDAO {
+
     @PersistenceContext
     private EntityManager em;
-    
-    public void save(Instalment ins){
+
+    public List<Instalment> findAll(Long idBalance) {
+        return em.createQuery("select i from Instalment i "
+                + " join fetch i.ins_transaction t"
+                + " join fetch t.tra_categories"
+                + " where t.tra_balance.bal_id = :pBalance"
+                + " ORDER BY i.ins_date", Instalment.class).setParameter("pBalance", idBalance)
+                .getResultList();
+    }
+
+    public void save(Instalment ins) {
         em.persist(ins);
     }
 }

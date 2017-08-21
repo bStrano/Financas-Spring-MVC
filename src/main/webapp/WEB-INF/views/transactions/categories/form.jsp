@@ -9,8 +9,7 @@
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@taglib tagdir="/WEB-INF/tags/" prefix="tags" %>
 <!DOCTYPE html>
-<c:url value="/resources/css" var="cssPath" />
-<tags:pageTemplate cssPath="${cssPath}" title="Cadastro Categoria">
+<tags:pageTemplate  title="Cadastro Categoria">
     <h1>Cadastro de Categoria</h1>
     <c:url value="/transactions/categories" var="categories" />
     <form action="${categories}" method="POST" >

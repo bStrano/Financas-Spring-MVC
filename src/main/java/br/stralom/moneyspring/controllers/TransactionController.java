@@ -80,24 +80,24 @@ public class TransactionController {
 
     
     @RequestMapping("/form")
-    public ModelAndView form(TransactionForm transactionForm) {
+    public ModelAndView form(@AuthenticationPrincipal User user, TransactionForm transactionForm) {
         ModelAndView modelAndView = new ModelAndView("transactions/form");
-        List<Category> listCategory = catDAO.findAll();
+        List<Category> listCategory = catDAO.findAll(user.getUser_id());
         modelAndView.addObject("listCategory", listCategory);
         List<Company> listCompany = comDAO.findAll();
         modelAndView.addObject("listCompany", listCompany);
-        List<Balance> listBalance =  balDAO.findAll();
+        List<Balance> listBalance =  balDAO.findAll(user.getUser_id());
         modelAndView.addObject("listBalance", listBalance);
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save( MultipartFile invoice, @Valid TransactionForm transactionForm, BindingResult result, RedirectAttributes redirectAttributes) { 
+    public ModelAndView save( @AuthenticationPrincipal User user, MultipartFile invoice, @Valid TransactionForm transactionForm, BindingResult result, RedirectAttributes redirectAttributes) { 
  
         if (result.hasErrors()) {
             System.out.println(result.getErrorCount());
             System.out.println(result.getAllErrors());
-            return form(transactionForm);
+            return form(user, transactionForm);
         }
         Transaction transaction = transactionForm.build();
         
@@ -109,8 +109,6 @@ public class TransactionController {
         for (Instalment tra_instalment : transaction.getTra_instalments()) {
             tra_instalment.setIns_transaction(transaction);
             insDAO.save(tra_instalment);
-            //System.out.println(tra_instalment);
-            
         }
         
         redirectAttributes.addFlashAttribute("sucess", "Transação adicionada com sucesso"); 
@@ -119,14 +117,13 @@ public class TransactionController {
       }
    
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showAll() {
+    public ModelAndView showAll(@AuthenticationPrincipal User user ) {
         ModelAndView modelAndView = new ModelAndView("transactions/list");
         //List<Transaction> listTra = traDAO.showAll();
-        List<Transaction> listTra = traDAO.findAllWithInstalment();
-
+        List<Instalment> listIns = insDAO.findAll(1L);
         //System.out.println("Transactions sem Parcela: " + traDAO.findAll());
-        Collections.sort(listTra, Comparator.comparing(Transaction::getTra_date).reversed());
-        modelAndView.addObject("listTransaction", listTra);
+        Collections.sort(listIns, Comparator.comparing(Instalment::getIns_date).reversed());
+        modelAndView.addObject("listInstalment", listIns);
         return modelAndView;
     }
 
@@ -153,19 +150,6 @@ public class TransactionController {
     
     
 
-    @RequestMapping("/categories/form")
-    public String formCategory() {
-
-        return "transactions/categories/form";
-    }
-
-    @RequestMapping("/categories")
-    public String saveCategory(@AuthenticationPrincipal User user, Category cat) {
-        cat.setCat_user(user);
-        System.out.println(cat);
-        catDAO.save(cat);
-        return "transactions/ok";
-    }
 
     @RequestMapping("/companies/form")
     public String formCompany() {

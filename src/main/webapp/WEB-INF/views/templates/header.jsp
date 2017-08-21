@@ -9,7 +9,7 @@
     
 <nav class="navbar navbar-inverse navbar-fixed-top menu-principal container-fluid">
         <div class="navbar-header">         
-            <a class="navbar-brand" href="#">Stralom</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">Stralom</a>
 
             <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cadastroCollapse">
                 <span class="icon-bar"></span>
@@ -27,7 +27,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transações<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" >Minhas Transações</a></li>
+                        <li><a href="${pageContext.request.contextPath}/transactions" >Minhas Transações</a></li>
                         <li class="divider"></li>
                         <li><a href="#" >Depositar</a></li>
                         <li><a href="#" >Retirar</a></li>

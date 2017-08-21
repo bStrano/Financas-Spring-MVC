@@ -21,6 +21,11 @@
         </security:authorize>
         <a href="users/login">Fazer Login</a> <br/>
         <a href="transactions/form">Form</a>
+        <a href="user/form">Form User</a>
+        <br/>
+        <a href="balances/form">Balance</a>
+        <br/>
+        <a href="balances">Lista Balances</a>
         <br/>
         <form action="transactions/info" method="GET">
             <label for="name">Nome:  </label>

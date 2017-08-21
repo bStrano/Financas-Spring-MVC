@@ -9,20 +9,28 @@
 <%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@taglib tagdir="/WEB-INF/tags/" prefix="tags"%>
 <!DOCTYPE html>
-<c:url value="/resources/css" var="cssPath" />
-<tags:pageTemplate cssPath="${cssPath}" title="Cadastro Usuário">
-    <form:form action="login" method="POST">
+<tags:pageTemplate title="Cadastro Usuário">
+    <c:url value="/user/form" var="form" />
+    <form:form action="${form}" method="POST" commandName="user" cssClass="form-horizontal">
+        <div class="form-group">
+            <label for="user_name">Nome: </label>
+            <form:input  path="user_name" name="user_name" cssClass="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="user_lastName">Sobrenome: </label>
+            <form:input path="user_lastName" name="user_lastName" cssClass="form-control"/>
+        </div>
         <div class="form-group">  
             <label for="username">Email: </label>
-            <input type="email" name="username" class="form-control" placeholder="Email@email.com.br"/>
+            <form:input type="email" path="user_email" name="user_email" class="form-control" placeholder="Email@email.com.br"/>
         </div>
         <div class="form-group">
             <label for="password">Senha: </label>
-            <input type="password" name="password" class="form-control" placeholder="Senha"/>
+            <form:input type="password" path="user_password" name="user_password" class="form-control" placeholder="Senha"/>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Entrar</button>
-        </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+       </div>
     </form:form>
 
 </tags:pageTemplate>

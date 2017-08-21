@@ -50,16 +50,18 @@ public class Transaction implements Serializable {
     @NotNull
     private String tra_name;
     private String tra_desc;
+    @NotNull
     private BigDecimal tra_value;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Calendar tra_date = Calendar.getInstance();
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TypeTransaction tra_typeTransaction;
     private String tra_invoicePath;
-    private int tra_numInstalments;
+    private int tra_numInstalments = 1;
     @Transient
-    private int tra_numInstalmentsRemaining = -1;
+    private int tra_numInstalmentsRemaining = tra_numInstalments;
     
     @ManyToOne
     @JoinColumn(name="tra_company")
@@ -68,8 +70,10 @@ public class Transaction implements Serializable {
     @OneToMany(mappedBy = "ins_transaction")
     private Collection<Instalment> tra_instalments = new ArrayList<>();
     
-    @ManyToMany(mappedBy="bal_transactions", cascade = CascadeType.ALL)
-    private Set<Balance> tra_balances = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name="tra_balance")
+    @NotNull
+    private Balance tra_balance;
     
     @ManyToMany
     @JoinTable(
@@ -78,7 +82,18 @@ public class Transaction implements Serializable {
         {@JoinColumn(name="cat_id")})
     private Set<Category> tra_categories = new HashSet<>();
 
+    public Transaction(Long tra_id, String tra_name, BigDecimal tra_value, TypeTransaction tra_typeTransaction, Balance tra_balance) {
+        this.tra_id = tra_id;
+        this.tra_name = tra_name;
+        this.tra_value = tra_value;
+        this.tra_typeTransaction = tra_typeTransaction;
+        this.tra_balance = tra_balance;
+    }
 
+    
+
+
+    
     
     public Transaction() {
     }
@@ -155,13 +170,15 @@ public class Transaction implements Serializable {
         this.tra_instalments = tra_instalments;
     }
 
-    public Set<Balance> getTra_balances() {
-        return tra_balances;
+    public Balance getTra_balance() {
+        return tra_balance;
     }
 
-    public void setTra_balances(Set<Balance> tra_balances) {
-        this.tra_balances = tra_balances;
+    public void setTra_balance(Balance tra_balance) {
+        this.tra_balance = tra_balance;
     }
+
+    
 
     public Set<Category> getTra_categories() {
         return tra_categories;
@@ -191,6 +208,13 @@ public class Transaction implements Serializable {
         this.tra_numInstalmentsRemaining = tra_numInstalmentsRemaining;
     }
     
+    public List<Transaction> listWithInstalments(){
+        
+        return null;
+    }
+    
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -210,46 +234,20 @@ public class Transaction implements Serializable {
             return false;
         }
         final Transaction other = (Transaction) obj;
-        if (!Objects.equals(this.tra_name, other.tra_name)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_desc, other.tra_desc)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_invoicePath, other.tra_invoicePath)) {
-            return false;
-        }
         if (!Objects.equals(this.tra_id, other.tra_id)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_value, other.tra_value)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_date, other.tra_date)) {
-            return false;
-        }
-        if (this.tra_typeTransaction != other.tra_typeTransaction) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_company, other.tra_company)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_instalments, other.tra_instalments)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_balances, other.tra_balances)) {
-            return false;
-        }
-        if (!Objects.equals(this.tra_categories, other.tra_categories)) {
             return false;
         }
         return true;
     }
 
+    
+    
     @Override
     public String toString() {
-        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_invoicePath=" + tra_invoicePath + ", tra_numInstalments=" + tra_numInstalments + ", tra_company=" + tra_company + ", tra_installments=" + tra_instalments + ", tra_balances=" + tra_balances + ", tra_categories=" + tra_categories + '}';
+        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_date=" + tra_date + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_invoicePath=" + tra_invoicePath + ", tra_numInstalments=" + tra_numInstalments + ", tra_numInstalmentsRemaining=" + tra_numInstalmentsRemaining + ", tra_company=" + tra_company + ", tra_instalments=" + tra_instalments + ", tra_balance=" + tra_balance + ", tra_categories=" + tra_categories + '}';
     }
+
+    
 
     
  

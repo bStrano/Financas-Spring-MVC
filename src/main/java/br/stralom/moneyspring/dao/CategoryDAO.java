@@ -24,18 +24,22 @@ public class CategoryDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public List<Category> findAll(){
-        String jpql = "select c from Category c";
+    public List<Category> findAll(Long id){
+        String jpql = "select c from Category c "
+                + "where c.cat_user.user_id = :pUserId ";
         TypedQuery<Category> queryCategory = em.createQuery(jpql, Category.class);
-        
+        queryCategory.setParameter("pUserId", id);
         List<Category> categoryList = queryCategory.getResultList();
         return categoryList;
     }
     
-    public Category findByName(String name){
-        String jpql = "select c from Category c where c.cat_name = :pName";
+    public Category findByName(String name, Long id){
+        String jpql = "select c from Category c "
+                + " where c.cat_name = :pName "
+                + "and where c.cat_user.user_id = :pUserId " ;
         TypedQuery<Category> catQuery = em.createQuery(jpql, Category.class);
         catQuery.setParameter("pName", name);
+        catQuery.setParameter("pUserId", id);
         return catQuery.getSingleResult();
     }
     

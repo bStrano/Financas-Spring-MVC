@@ -5,11 +5,12 @@
  */
 package br.stralom.moneyspring.dao;
 
-import br.stralom.moneyspring.entities.Balance;
-import java.util.List;
+import br.stralom.moneyspring.entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,21 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class BalanceDAO {
-    
-    @PersistenceContext
+public class UserDAOTest {
+        @PersistenceContext
     private EntityManager em;
     
-    public List<Balance> findAll(Long idUser){
-        String jpql = "select b from Balance b"
-                + " join fetch b.bal_user u"
-                + " where u.user_id = :idUser";
-        TypedQuery<Balance> queryBalance = em.createQuery(jpql, Balance.class);
-        queryBalance.setParameter("idUser",idUser);
-        return queryBalance.getResultList();
+   public User find(Long id){
+        return em.find(User.class, id);
     }
+
     
-    public void save(Balance balance){
-        em.persist(balance);
+        public void merge(User user) {
+        em.merge(user);
     }
+        
+        public void save(User user){
+            em.persist(user);
+        }
 }
+

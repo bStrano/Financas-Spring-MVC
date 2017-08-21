@@ -5,25 +5,20 @@
  */
 package br.stralom.moneyspring.form;
 
-import br.stralom.moneyspring.dao.CategoryDAO;
+import br.stralom.moneyspring.entities.Balance;
 import br.stralom.moneyspring.entities.Category;
 import br.stralom.moneyspring.entities.Company;
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
 import br.stralom.moneyspring.entities.TypeTransaction;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 
 /**
@@ -43,7 +38,7 @@ public class TransactionForm {
     private Long company_id;
     private int tra_numInstalments;
     private BigDecimal ins_interestRate;
-    
+    private Long bal_id;
     
     public String getTra_name() {
         return tra_name;
@@ -124,6 +119,15 @@ public class TransactionForm {
     public void setIns_interestRate(BigDecimal ins_interestRate) {
         this.ins_interestRate = ins_interestRate;
     }
+
+    public Long getBal_id() {
+        return bal_id;
+    }
+
+    public void setBal_id(Long bal_id) {
+        this.bal_id = bal_id;
+    }
+    
     
 
     public Transaction build() {
@@ -143,6 +147,11 @@ public class TransactionForm {
         transaction.setTra_value(tra_value);
         transaction.setTra_numInstalments(tra_numInstalments);
         transaction.setTra_instalments(this.getInstalments());
+        Balance bal = new Balance();
+        bal.setBal_id(bal_id);
+        transaction.setTra_balance(bal);
+        
+        
         
 
         return transaction;

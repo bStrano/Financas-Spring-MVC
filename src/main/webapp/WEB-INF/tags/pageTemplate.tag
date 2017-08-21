@@ -8,7 +8,7 @@
 
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title" required="true"%>
-<%@attribute name="cssPath" required="true"%>
+<%@attribute name="cssPath" required="false"%>
 <html>
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,8 +17,8 @@
 
         <title>${title} - Stralom</title>
 
-        <link rel="stylesheet" type="text/css" href="${cssPath}/estilo.css" />
-        <link rel="stylesheet" type="text/css" href="${cssPath}/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/estilo.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
     </head>
 
     <body class="bodyCss">
@@ -32,6 +32,8 @@
             <%-- <footer>
                <%@include file="/WEB-INF/views/templates/footer.jsp" %>
             </footer> --%>
+            <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+            <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
         </div>
     </body>
 </html>

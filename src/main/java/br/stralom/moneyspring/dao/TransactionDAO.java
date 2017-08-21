@@ -61,11 +61,16 @@ public class TransactionDAO {
         return traQuery.getSingleResult();
     }
 
-    public List<Transaction> findAll() {
+    public List<Transaction> findAll(Long idUser, Long idBalance) {
         String jpql = "select tra from Transaction tra"
                 + " join fetch tra.tra_instalments"
-                + " where tra.tra_numInstalments > 0 ";
+                + " join fetch tra.tra_user u"
+                + " join fetch tra.tra_balance b"
+                + " where u.user_id = :idUser"
+                + " and b.bal_id = :idBalance ";
         TypedQuery<Transaction> traQuery = em.createQuery(jpql, Transaction.class);
+        traQuery.setParameter("idUser", idUser);
+        traQuery.setParameter("idBalance", idBalance);
         return traQuery.getResultList();
 
     }

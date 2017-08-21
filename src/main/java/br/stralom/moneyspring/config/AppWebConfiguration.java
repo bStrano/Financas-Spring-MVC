@@ -37,7 +37,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackageClasses = {HomeController.class, TransactionDAO.class, FileSaver.class, TransactionForm.class})
         //"web.xml" do spring
         
-class AppWebConfiguration extends WebMvcConfigurerAdapter {
+public class AppWebConfiguration extends WebMvcConfigurerAdapter {
     
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver(){

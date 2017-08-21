@@ -34,6 +34,15 @@ public class Company implements Serializable {
    private String com_name;
    @OneToMany(mappedBy="tra_company")
    private Set<Transaction> com_transactions = new HashSet<>();
+
+    public Company() {
+    }
+
+    public Company(Long com_id) {
+        this.com_id = com_id;
+    }
+   
+   
    
     public Long getCom_id() {
         return com_id;

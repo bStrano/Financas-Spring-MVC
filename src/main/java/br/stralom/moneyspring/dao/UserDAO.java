@@ -13,12 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Bruno Strano
  */
-
 @Repository
 public class UserDAO implements UserDetailsService{
     
@@ -46,4 +46,8 @@ public class UserDAO implements UserDetailsService{
         public void merge(User user) {
         em.merge(user);
     }
+        
+        public void save(User user){
+            em.persist(user);
+        }
 }

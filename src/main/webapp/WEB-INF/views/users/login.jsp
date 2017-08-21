@@ -9,7 +9,7 @@
 <%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@taglib tagdir="/WEB-INF/tags/" prefix="tags" %>
 
-<tags:pageTemplate title="Login" cssPath="${cssPath}">
+<tags:pageTemplate title="Login" >
     
     <div class="container">
         <div class="row">

@@ -36,15 +36,12 @@ public class Balance implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bal_id;
-    private BigDecimal bal_total;
+    private BigDecimal bal_total = BigDecimal.ZERO;
     private String bal_name;
     private String bal_desc;
     @Enumerated(EnumType.STRING)
-    private BalanceStatus bal_BalanceStatus;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="tb_balance_transactions", 
-            joinColumns = {@JoinColumn(name="bal_id")},
-            inverseJoinColumns = {@JoinColumn(name="tra_id")})
+    private BalanceStatus bal_BalanceStatus = BalanceStatus.NEUTRAL;
+    @OneToMany(mappedBy = "tra_balance")
     private Collection<Transaction> bal_transactions = new ArrayList<>();
     @OneToMany(mappedBy = "goal_balance")
     private Collection<Goal> bal_goals ;
@@ -106,7 +103,7 @@ public class Balance implements Serializable {
     }
 
 
-   
+
 
 
     public Collection<Goal> getBal_goals() {

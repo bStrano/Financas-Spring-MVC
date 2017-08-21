@@ -34,13 +34,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name="tb_user")
 public class User implements Serializable, UserDetails {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
     @NotNull
     private String user_name;
     @NotNull
-    private String last_name;
+    private String user_lastName;
     @NotNull
     private String user_password;
     @NotNull
@@ -94,13 +94,15 @@ public class User implements Serializable, UserDetails {
         this.user_id = user_id;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getUser_lastName() {
+        return user_lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setUser_lastName(String user_lastName) {
+        this.user_lastName = user_lastName;
     }
+
+
 
     public Set<Balance> getUser_balances() {
         return user_balances;
@@ -148,26 +150,16 @@ public class User implements Serializable, UserDetails {
             return false;
         }
         final User other = (User) obj;
-        if (!Objects.equals(this.user_name, other.user_name)) {
-            return false;
-        }
-        if (!Objects.equals(this.last_name, other.last_name)) {
-            return false;
-        }
-        if (!Objects.equals(this.user_password, other.user_password)) {
-            return false;
-        }
         if (!Objects.equals(this.user_email, other.user_email)) {
             return false;
         }
         if (!Objects.equals(this.user_id, other.user_id)) {
             return false;
         }
-        if (!Objects.equals(this.user_balances, other.user_balances)) {
-            return false;
-        }
         return true;
     }
+
+   
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
