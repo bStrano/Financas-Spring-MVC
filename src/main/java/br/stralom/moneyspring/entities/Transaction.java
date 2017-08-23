@@ -60,8 +60,8 @@ public class Transaction implements Serializable {
     private TypeTransaction tra_typeTransaction;
     private String tra_invoicePath;
     private int tra_numInstalments = 1;
-    @Transient
-    private int tra_numInstalmentsRemaining = tra_numInstalments;
+    private BigDecimal tra_interestRate;
+
     
     @ManyToOne
     @JoinColumn(name="tra_company")
@@ -200,13 +200,15 @@ public class Transaction implements Serializable {
         this.tra_numInstalments = tra_numInstalments;
     }
 
-    public int getTra_numInstalmentsRemaining() {
-        return tra_numInstalmentsRemaining;
+    public BigDecimal getTra_interestRate() {
+        return tra_interestRate;
     }
 
-    public void setTra_numInstalmentsRemaining(int tra_numInstalmentsRemaining) {
-        this.tra_numInstalmentsRemaining = tra_numInstalmentsRemaining;
+    public void setTra_interestRate(BigDecimal tra_interestRate) {
+        this.tra_interestRate = tra_interestRate;
     }
+
+
     
     public List<Transaction> listWithInstalments(){
         
@@ -244,7 +246,7 @@ public class Transaction implements Serializable {
     
     @Override
     public String toString() {
-        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_date=" + tra_date + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_invoicePath=" + tra_invoicePath + ", tra_numInstalments=" + tra_numInstalments + ", tra_numInstalmentsRemaining=" + tra_numInstalmentsRemaining + ", tra_company=" + tra_company + ", tra_instalments=" + tra_instalments + ", tra_balance=" + tra_balance + ", tra_categories=" + tra_categories + '}';
+        return "Transaction{" + "tra_id=" + tra_id + ", tra_name=" + tra_name + ", tra_desc=" + tra_desc + ", tra_value=" + tra_value + ", tra_date=" + tra_date + ", tra_typeTransaction=" + tra_typeTransaction + ", tra_invoicePath=" + tra_invoicePath + ", tra_numInstalments=" + tra_numInstalments  + ", tra_company=" + tra_company + ", tra_instalments=" + tra_instalments + ", tra_balance=" + tra_balance + ", tra_categories=" + tra_categories + '}';
     }
 
     

@@ -64,6 +64,7 @@ public class TransactionController {
     @Autowired
     private UserDAO userDAO;
     
+    
     @InitBinder
     // O Binder, é responsavel por conectar  duas coisas. Por exemplo os dados do
     // formulário com o objeto da classe Transaction.
@@ -90,7 +91,9 @@ public class TransactionController {
             return form(user, transactionForm);
         }
         Transaction transaction = transactionForm.build();
-          
+        List<Instalment> instalments = traSVC.createInstalments(transaction.getTra_numInstalments(), transaction.getTra_date(), transaction.getTra_interestRate(), transaction.getTra_value());
+        transaction.setTra_instalments(instalments);
+        
         String path= fileSaver.write("/archives", invoice);
         transaction.setTra_invoicePath(path);
         traSVC.save(transaction);

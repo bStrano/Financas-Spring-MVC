@@ -10,6 +10,9 @@ import br.stralom.moneyspring.dao.TransactionDAO;
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
 import br.stralom.moneyspring.infra.FileSaver;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,10 @@ public class TransactionService {
     private InstalmentDAO insDAO;
     @Autowired
     private FileSaver fileSaver;
-
+    @Autowired
+    private InstalmentService insSVC;
+    
+    
     public void save(Transaction transaction) {
         traDAO.save(transaction);
         for (Instalment tra_instalment : transaction.getTra_instalments()) {
@@ -37,6 +43,18 @@ public class TransactionService {
         }
     }
 
+    public List<Instalment> createInstalments(int numInstalments, Calendar initialDate, BigDecimal interestRate, BigDecimal totalValue){
+        List<Instalment> instalments = new ArrayList<>();
+        for(int i = 0 ; i < numInstalments ; i++){
+            Instalment ins = new Instalment();
+            ins.setIns_number(i+1);
+            ins.setIns_date(insSVC.calcInsDate(i+1, initialDate));
+            ins.setIns_value(insSVC.calcValue(totalValue, numInstalments, interestRate,i+1));
+            instalments.add(ins);
+        }
+        return instalments;
+    }
+    
     public List<Transaction> findAll() {
         return traDAO.showAll();
     }
