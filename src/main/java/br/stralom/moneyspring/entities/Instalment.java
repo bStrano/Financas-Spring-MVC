@@ -25,21 +25,23 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Bruno Strano
  */
 @Entity
-@Table(name="tb_instalment")
+@Table(name = "tb_instalment")
 public class Instalment implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ins_id;
     private BigDecimal ins_value;
     private BigDecimal ins_interestRate;
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Calendar ins_date;
     @ManyToOne
-    @JoinColumn(name="ins_transaction")
+    @JoinColumn(name = "ins_transaction")
     private Transaction ins_transaction;
-    private int ins_insRemaining;
-    
+    private int ins_number;
+
     public Long getIns_id() {
         return ins_id;
     }
@@ -72,6 +74,7 @@ public class Instalment implements Serializable {
         this.ins_date = ins_date;
     }
 
+
     public BigDecimal getIns_interestRate() {
         return ins_interestRate;
     }
@@ -80,16 +83,13 @@ public class Instalment implements Serializable {
         this.ins_interestRate = ins_interestRate;
     }
 
-    public int getIns_insRemaining() {
-        return ins_insRemaining;
+    public int getIns_number() {
+        return ins_number;
     }
 
-    public void setIns_insRemaining(int ins_insRemaining) {
-        this.ins_insRemaining = ins_insRemaining;
+    public void setIns_number(int ins_number) {
+        this.ins_number = ins_number;
     }
-    
-    
-    
 
     @Override
     public int hashCode() {
@@ -133,15 +133,4 @@ public class Instalment implements Serializable {
         return "Instalment{" + "ins_id=" + ins_id + ", ins_value=" + ins_value + ", ins_interestRate=" + ins_interestRate + '}';
     }
 
-    
-
-    
-    
-
-    
-
-    
-    
-    
-    
 }

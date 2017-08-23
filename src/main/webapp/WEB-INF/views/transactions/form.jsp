@@ -73,7 +73,7 @@
 
                 <label for="tra_value">Valor: </label> 
                 <div class="input-group">
-                    <form:input path="tra_value" name="tra_value" cssClass="form-control"/>
+                    <form:input path="tra_value" name="tra_value" cssClass="form-control" type="number" step="0.01"/>
                     <span class="input-group-addon">Obrigatório</span>
                     <form:errors path="tra_value" />
                 </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="form-group">
                 <label for="ins_interestRate">Juros</label>
-                <form:input type="number" path="ins_interestRate" value="0" max="100" min="0" cssClass="form-control"/>
+                <form:input type="number" path="ins_interestRate"  step="0.01" value="0" max="100" min="0" cssClass="form-control"/>
             </div>
             <button type="submit" class="btn btn-primary form-control">Cadastrar Transação</button>
         </form:form>

@@ -11,6 +11,8 @@ import br.stralom.moneyspring.entities.Company;
 import br.stralom.moneyspring.entities.Instalment;
 import br.stralom.moneyspring.entities.Transaction;
 import br.stralom.moneyspring.entities.TypeTransaction;
+import br.stralom.moneyspring.services.InstalmentService;
+import br.stralom.moneyspring.services.TransactionService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -39,6 +41,7 @@ public class TransactionForm {
     private int tra_numInstalments;
     private BigDecimal ins_interestRate;
     private Long bal_id;
+    private TransactionService traSVC =  new TransactionService();
     
     public String getTra_name() {
         return tra_name;
@@ -146,7 +149,7 @@ public class TransactionForm {
         transaction.setTra_typeTransaction(tra_typeTransaction);
         transaction.setTra_value(tra_value);
         transaction.setTra_numInstalments(tra_numInstalments);
-        transaction.setTra_instalments(this.getInstalments());
+        transaction.setTra_instalments(traSVC.createInstalments(tra_numInstalments, transaction.getTra_date(), ins_interestRate, tra_value));
         Balance bal = new Balance();
         bal.setBal_id(bal_id);
         transaction.setTra_balance(bal);
@@ -157,42 +160,6 @@ public class TransactionForm {
         return transaction;
     }
 
-    // Refatarorar futuramente
-    public List<Instalment> getInstalments() {
-        List<Instalment> instalments = new ArrayList<>();
-        BigDecimal initialCapital = this.tra_value;
-        BigDecimal interestRate = this.ins_interestRate.divide(BigDecimal.valueOf(100));
-        BigDecimal ins_value = this.tra_value.divide(new BigDecimal(tra_numInstalments), 4 , RoundingMode.HALF_UP);
-        BigDecimal absolutInterestRate = this.ins_interestRate.divide(BigDecimal.valueOf(100), 4 , RoundingMode.HALF_UP);
-        BigDecimal instalmentValue = this.tra_value;
-       Calendar ins_date = (Calendar) tra_date.clone();
-        for (int i = 0; i < this.tra_numInstalments; i++) {
-            ins_value = this.tra_value.divide(new BigDecimal(tra_numInstalments), 4 , RoundingMode.HALF_UP);
-            ins_date.add(Calendar.DAY_OF_MONTH, 30);
-            Calendar teste = (Calendar) ins_date.clone();
-            Instalment ins = new Instalment();
-            ins.setIns_date(teste);
-            System.out.println("X-             " + ins.getIns_date().get(Calendar.MONTH));
-            ins.setIns_interestRate( ins_interestRate);
-            if (this.ins_interestRate.intValue() == 0) {
-                ins.setIns_value(ins_value);      
-            } else {
-                ins.setIns_interestRate(ins_interestRate);
-                instalmentValue =  instalmentValue.multiply(absolutInterestRate).add(instalmentValue);
-                ins.setIns_value(instalmentValue.subtract(initialCapital).add(ins_value));
-                
-                //ins.setIns_value(calcCompoundInteres(initialCapital, interestRate, tra_numInstalments));
-            }
-            instalments.add(ins);
-        }
-        System.out.println("Instalments : " + instalments);
-        return instalments;
-    }
-    
-    public BigDecimal calcCompoundInteres(BigDecimal initialCapital, BigDecimal interestRate, int instalments){
-        return ( initialCapital.multiply(BigDecimal.valueOf(1.0).add(interestRate).pow(tra_numInstalments) )   );
-    }
-   
 
 
 
