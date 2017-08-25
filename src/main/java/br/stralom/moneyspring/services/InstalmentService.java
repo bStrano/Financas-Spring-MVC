@@ -48,7 +48,8 @@ public class InstalmentService {
     }
 
     public BigDecimal calcValueWithCompundInterest(BigDecimal totalValue, int numberInstalment, int numberOfInstalments, BigDecimal interestRate) {
-        return totalValue.multiply(interestRate.pow(numberInstalment)).subtract(totalValue).add(calcSimpleValue(totalValue, numberOfInstalments, interestRate));
+        BigDecimal totalValueWithInterest = totalValue.multiply(interestRate.pow(numberInstalment));
+        return calcSimpleValue(totalValueWithInterest, numberOfInstalments, interestRate);
     }
 
 //    //https://matematicabasica.net/juros-compostos/

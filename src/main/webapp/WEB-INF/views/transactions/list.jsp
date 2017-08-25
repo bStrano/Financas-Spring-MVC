@@ -38,7 +38,8 @@
                             </c:otherwise>
 
                         </c:choose>
-                        <td>${ins.ins_transaction.tra_name}</td>
+                        <c:url var="info" value="transactions/info/${ins.ins_transaction.tra_id}"/>
+                        <td><a href="${info}" >${ins.ins_transaction.tra_name}</a></td>
                         <td>${ins.ins_transaction.tra_desc}</td>
                         <td>
                             <!-- http://www.tutorialspoint.com/jsp/jstl_format_formatnumber_tag.htm -->
