@@ -34,7 +34,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -132,13 +131,6 @@ public class TransactionController {
         System.out.println(name);
         ModelAndView modelAndView = new ModelAndView("transactions/info");
         modelAndView.addObject("tra", traSVC.findByName(name));
-        return modelAndView;
-    }
-    
-    @RequestMapping("/info/{id}")
-    public ModelAndView info(@PathVariable("id") Long id){
-        ModelAndView modelAndView = new ModelAndView("transactions/info");
-        modelAndView.addObject("tra",traSVC.find(id));
         return modelAndView;
     }
 
