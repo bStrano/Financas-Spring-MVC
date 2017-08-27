@@ -63,6 +63,8 @@ public class TransactionService {
         return traDAO.findByName(name);
     }
 
-
+    public Transaction find(Long id){
+        return traDAO.findById(id);
+    }
 
 }

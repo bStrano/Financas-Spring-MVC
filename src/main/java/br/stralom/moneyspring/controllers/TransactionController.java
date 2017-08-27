@@ -64,8 +64,7 @@ public class TransactionController {
     private FileSaver fileSaver;
     @Autowired
     private UserDAO userDAO;
-    
-    
+
     @InitBinder
     // O Binder, é responsavel por conectar  duas coisas. Por exemplo os dados do
     // formulário com o objeto da classe Transaction.
@@ -74,7 +73,6 @@ public class TransactionController {
         //binder.addValidators(new TransactionValidation());
     }
 
-    
     @RequestMapping("/form")
     public ModelAndView form(@AuthenticationPrincipal User user, TransactionForm transactionForm) {
         ModelAndView modelAndView = new ModelAndView("transactions/form");
@@ -85,7 +83,7 @@ public class TransactionController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save( @AuthenticationPrincipal User user, MultipartFile invoice, @Valid TransactionForm transactionForm, BindingResult result, RedirectAttributes redirectAttributes) { 
+    public ModelAndView save(@AuthenticationPrincipal User user, MultipartFile invoice, @Valid TransactionForm transactionForm, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
 //            System.out.println(result.getErrorCount());
 //            System.out.println(result.getAllErrors());
@@ -94,45 +92,47 @@ public class TransactionController {
         Transaction transaction = transactionForm.build();
         List<Instalment> instalments = traSVC.createInstalments(transaction.getTra_numInstalments(), transaction.getTra_date(), transaction.getTra_interestRate(), transaction.getTra_value());
         transaction.setTra_instalments(instalments);
-        
-        String path= fileSaver.write("/archives", invoice);
+
+        String path = fileSaver.write("/archives", invoice);
         transaction.setTra_invoicePath(path);
         traSVC.save(transaction);
-        
-        redirectAttributes.addFlashAttribute("sucess", "Transação adicionada com sucesso"); 
+
+        redirectAttributes.addFlashAttribute("sucess", "Transação adicionada com sucesso");
         return new ModelAndView("redirect:transactions");
-     
-      }
-   
+
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showAll( @AuthenticationPrincipal User user, @RequestParam("idBalance") Long idBalance ) {
+    public ModelAndView showAll(@AuthenticationPrincipal User user, @RequestParam("idBalance") Long idBalance) {
         ModelAndView modelAndView = new ModelAndView("transactions/list");
         //List<Transaction> listTra = traDAO.showAll();
         //List<Instalment> listIns = insSVC.findAll(1L);
         //System.out.println("Transactions sem Parcela: " + traDAO.findAll());
         //Collections.sort(listIns, Comparator.comparing(Instalment::getIns_date).reversed());
-        modelAndView.addObject("listInstalment", insSVC.findAll(user.getUser_id(),idBalance));
+        modelAndView.addObject("listInstalment", insSVC.findAll(user.getUser_id(), idBalance));
         return modelAndView;
     }
 
     /**
-    @RequestMapping(value="/info", method = RequestMethod.POST)
-    public ModelAndView info(String name){
-        System.out.println("test");
-        
-        String saida = "transactions/info2/"+name;
-        System.out.println(saida);
-        //return saida;
-        return new ModelAndView(saida);
-    }
-    **/
-    
+     * @RequestMapping(value="/info", method = RequestMethod.POST) public
+     * ModelAndView info(String name){ System.out.println("test");
+     *
+     * String saida = "transactions/info2/"+name; System.out.println(saida);
+     * //return saida; return new ModelAndView(saida); }
+    *
+     */
     @RequestMapping("/info")
-    public ModelAndView infoTest(@RequestParam("name") String name){
+    public ModelAndView infoTest(@RequestParam("name") String name) {
         System.out.println(name);
         ModelAndView modelAndView = new ModelAndView("transactions/info");
         modelAndView.addObject("tra", traSVC.findByName(name));
         return modelAndView;
     }
 
+    @RequestMapping("/info/{id}")
+    public ModelAndView info(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("transactions/info");
+        modelAndView.addObject("tra", traSVC.find(id));
+        return modelAndView;
+    }
 }
