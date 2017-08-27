@@ -26,12 +26,13 @@ public class InstalmentDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Instalment> findAll(Long idBalance) {
+    public List<Instalment> findAll(Long idUser, Long idBalance) {
         return em.createQuery("select i from Instalment i "
                 + " join fetch i.ins_transaction t"
                 + " join fetch t.tra_categories"
                 + " where t.tra_balance.bal_id = :pBalance"
-                + " ORDER BY i.ins_date DESC", Instalment.class).setParameter("pBalance", idBalance)
+                + " AND t.tra_balance.bal_user.user_id = :pUser "
+                + " ORDER BY i.ins_date DESC", Instalment.class).setParameter("pBalance", idBalance).setParameter("pUser", idUser)
                 .getResultList();
     }
 

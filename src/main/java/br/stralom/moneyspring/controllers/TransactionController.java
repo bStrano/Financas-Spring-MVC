@@ -34,6 +34,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,13 +105,13 @@ public class TransactionController {
       }
    
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showAll(@AuthenticationPrincipal User user ) {
+    public ModelAndView showAll( @AuthenticationPrincipal User user, @RequestParam("idBalance") Long idBalance ) {
         ModelAndView modelAndView = new ModelAndView("transactions/list");
         //List<Transaction> listTra = traDAO.showAll();
         //List<Instalment> listIns = insSVC.findAll(1L);
         //System.out.println("Transactions sem Parcela: " + traDAO.findAll());
         //Collections.sort(listIns, Comparator.comparing(Instalment::getIns_date).reversed());
-        modelAndView.addObject("listInstalment", insSVC.findAll(1L));
+        modelAndView.addObject("listInstalment", insSVC.findAll(user.getUser_id(),idBalance));
         return modelAndView;
     }
 

@@ -9,6 +9,9 @@
 <!-- <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/estilo.css" rel="stylesheet"> -->
 <c:url value="/resources/css/bootstrap.min.css" />
+<!--   
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+-->
 <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css></c:url>">
 <link rel="stylesheet" href="${cssPath}/estilo.css" >
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+

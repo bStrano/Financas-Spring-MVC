@@ -9,12 +9,12 @@
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="title" required="true"%>
 <%@attribute name="cssPath" required="false"%>
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>${title} - Stralom</title>
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/estilo.css" />
@@ -33,7 +33,7 @@
                <%@include file="/WEB-INF/views/templates/footer.jsp" %>
             </footer> --%>
             <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-            <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+            <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>     
         </div>
     </body>
 </html>

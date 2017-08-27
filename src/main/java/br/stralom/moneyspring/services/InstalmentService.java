@@ -24,8 +24,8 @@ public class InstalmentService {
     @Autowired
     private InstalmentDAO insDAO;
 
-    public List<Instalment> findAll(Long balanceID) {
-        return insDAO.findAll(balanceID);
+    public List<Instalment> findAll(Long idUser, Long idBalance) {
+        return insDAO.findAll(idUser, idBalance);
     }
 
     public Calendar calcInsDate(int ins_number, Calendar ins_date) {

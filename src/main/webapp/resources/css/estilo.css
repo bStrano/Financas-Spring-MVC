@@ -109,4 +109,9 @@ nav.sidebar .navbar-nav span {
     float: right;
 }
 
+.listBalance {
+    border-right-style: solid;
+    border-right-color: #D3D3D3;
+    border-right-width: 1px;
 
+}
