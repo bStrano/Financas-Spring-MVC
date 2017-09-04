@@ -16,7 +16,7 @@
         <h1>Cadastro de Transações</h1>
 
         <spring:url value="/transactions" var="transactions"/>
-        <form:form action="${transactions}" method="POST" commandName="transactionForm" enctype="multipart/form-data" cssClass="form-horizontal">
+        <form:form action="${transactions}" method="POST" commandName="transactionForm" enctype="multipart/form-data" cssClass="form-horizontal" id="registryTransaction">
             <div class="form-group has-warning" >
 
                 <label for="tra_name">Nome: </label>     
@@ -51,12 +51,12 @@
                 <form:select itemValue="bal_id" itemLabel="bal_name" items="${listBalance}" path="bal_id" cssClass="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="categoryForm">
                 <label for="category_id" class="label-control">Categorias: </label>
-                <form:select itemValue="cat_id" itemLabel="cat_name" items="${listCategory}" path="category_id" cssClass="form-control"/>   
+                <form:select itemValue="cat_id" itemLabel="cat_name" items="${listCategory}" path="category_id" cssClass="form-control" id="categories" multiple="false"/>   
                 <form:errors path="category_id" />
             </div>
-
+            
             <div class="form-group"> 
                 <label for="company_id" class="label-control">Empresa: </label>
                 <form:select path="company_id" items="${listCompany}" itemLabel="com_name" itemValue="com_id" cssClass="form-control"/>
@@ -99,6 +99,6 @@
             </div>
             <button type="submit" class="btn btn-primary form-control">Cadastrar Transação</button>
         </form:form>
-
     </div>
+    <script src="${pageContext.request.contextPath}/resources/js/transaction.js"></script>
 </tags:pageTemplate>
